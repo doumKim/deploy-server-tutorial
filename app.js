@@ -51,7 +51,8 @@ app.use(express.urlencoded({ extended: false }));
  */
 app.use(
   cors({
-    origin: '*',
+    origin:
+      'http://practice-deploy-react.s3-website.ap-northeast-2.amazonaws.com',
     methods: ['GET', 'POST'],
     credentials: true,
   }),
