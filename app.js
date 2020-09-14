@@ -25,8 +25,8 @@ app.use(
   session({
     secret: '@codestates',
     resave: false,
-    saveUninitialized: true
-  })
+    saveUninitialized: true,
+  }),
 );
 
 /*
@@ -51,10 +51,10 @@ app.use(express.urlencoded({ extended: false }));
  */
 app.use(
   cors({
-    origin: ['http://localhost:3000'],
+    origin: '*',
     methods: ['GET', 'POST'],
-    credentials: true
-  })
+    credentials: true,
+  }),
 );
 
 // ? POSTMAN을 통한 test에 필요할지도 모릅니다. logging을 활용하세요.
@@ -69,21 +69,21 @@ app.get('/D*', (req, res) => {
   urls
     .findOne({
       where: {
-        code: 'D' + req.params[0] // req.params는 url중 도메인 명 다음부터 쌓인다 ( https://naver.com/params[0]/params[1]/params[2])
-      }
+        code: 'D' + req.params[0], // req.params는 url중 도메인 명 다음부터 쌓인다 ( https://naver.com/params[0]/params[1]/params[2])
+      },
     })
-    .then(result => {
+    .then((result) => {
       if (result) {
         result.update({
           // sequelize에서 반환되는 데이터는 단순히 결과값의 데이터 객체가 아니라 sequelize의 함수를 포함하고 있다.
-          visits: result.visits + 1 // 다만 데이터에 접근할 경우에는 바로 접근 가능
+          visits: result.visits + 1, // 다만 데이터에 접근할 경우에는 바로 접근 가능
         });
         res.redirect(result.url);
       } else {
         res.sendStatus(204); // No Content
       }
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
       res.sendStatus(500); // Server Error
     });
